@@ -40,7 +40,7 @@ interface Instance {
 Alternatively, you can make a wrapper interface, however this does require you to cast your value to the wrapper interface to work.
 ```ts
 // anywhere.d?.ts
-interface WrappedInstance {
+interface WrappedInstance extends Instance {
   GetComponent(name: string): Component;
   Components: Array<Component>;
 }
