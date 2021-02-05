@@ -47,6 +47,7 @@ interface WrappedInstance extends Instance {
 }
 
 const wrappedInstance = instance as WrappedInstance;
+const wrappedPlayer = instance as Player & WrappedInstance;
 ```
 
 ## How to define a call macro?
