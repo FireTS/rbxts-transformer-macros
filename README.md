@@ -38,6 +38,7 @@ interface Instance {
 }
 ```
 Alternatively, you can make a wrapper interface, however this does require you to cast your value to the wrapper interface to work.
+This method is convenient if you have macros that only work in specific contexts, e.g client/server. It is far less convenient to have to cast values, so use ambient declarations when possible.
 ```ts
 // anywhere.d?.ts
 interface WrappedInstance extends Instance {
