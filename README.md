@@ -53,7 +53,7 @@ Call macros must be in a ModuleScript (script.ts), and exported.
 ```ts
 import { $defineCallMacros } from "rbxts-transformer-wrapper";
 
-export const PROP_MACROS = $defineCallMacros<Instance>({
+export const CALL_MACROS = $defineCallMacros<Instance>({
   GetComponent(name: string) {
     return findComponent(this, name);
   }
