@@ -196,7 +196,7 @@ function createTransformer(program: ts.Program, context: ts.TransformationContex
 		const type = typeChecker.getTypeAtLocation(node.expression);
 		if (type && type.symbol) {
 			const declaration = type.symbol.valueDeclaration?.parent;
-			if (ts.isInterfaceDeclaration(declaration)) {
+			if (declaration && ts.isInterfaceDeclaration(declaration)) {
 				const parentSymbol = typeChecker.getTypeAtLocation(declaration.name);
 				if (parentSymbol?.symbol) {
 					const macros = macroList.get(parentSymbol.symbol);
