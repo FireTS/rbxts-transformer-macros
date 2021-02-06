@@ -195,7 +195,7 @@ function createTransformer(program: ts.Program, context: ts.TransformationContex
 	function getMacroFromCallExpression(node: ts.CallExpression): Macro | undefined {
 		const type = typeChecker.getTypeAtLocation(node.expression);
 		if (type && type.symbol) {
-			const declaration = type.symbol.valueDeclaration.parent;
+			const declaration = type.symbol.valueDeclaration?.parent;
 			if (ts.isInterfaceDeclaration(declaration)) {
 				const parentSymbol = typeChecker.getTypeAtLocation(declaration.name);
 				if (parentSymbol?.symbol) {
