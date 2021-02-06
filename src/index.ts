@@ -62,9 +62,9 @@ function createTransformer(program: ts.Program, context: ts.TransformationContex
 	function isDefineMacro(node: ts.Node): node is ts.CallExpression & { expression: ts.Identifier } {
 		if (!ts.isCallExpression(node)) return false;
 		if (!ts.isIdentifier(node.expression)) return false;
-		const symbol = typeChecker.getTypeAtLocation(node.expression);
-		if (symbol) {
-			const originFile = symbol.symbol.declarations[0]?.getSourceFile();
+		const type = typeChecker.getTypeAtLocation(node.expression);
+		if (type && type.symbol) {
+			const originFile = type.symbol.declarations?.[0]?.getSourceFile();
 			if (originFile) {
 				if (path.normalize(originFile.fileName) === INDEX_FILE) {
 					return true;

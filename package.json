@@ -1,6 +1,6 @@
 {
 	"name": "rbxts-transformer-macros",
-	"version": "0.0.7",
+	"version": "0.0.8",
 	"description": "A roblox-ts transformer that allows you to add custom macros to (almost) any type.",
 	"main": "out/index.js",
 	"author": "Fireboltofdeath",
