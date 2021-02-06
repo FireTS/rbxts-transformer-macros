@@ -53,7 +53,7 @@ const wrappedPlayer = player as Player & WrappedInstance;
 ## How to define a call macro?
 Call macros must be in a ModuleScript (script.ts), and exported.
 ```ts
-import { $defineCallMacros } from "rbxts-transformer-wrapper";
+import { $defineCallMacros } from "rbxts-transformer-macros";
 
 export const CALL_MACROS = $defineCallMacros<Instance>({
   GetComponent(name: string) {
@@ -66,7 +66,7 @@ export const CALL_MACROS = $defineCallMacros<Instance>({
 Property macros must be in a ModuleScript (script.ts), and exported.
 A notable difference between property macros in runtime wrappers vs compile-time, compile-time property macros *can* yield if the macro yields. This can be a good thing, but it can also cause issues if you aren't aware of it.
 ```ts
-import { $definePropMacros } from "rbxts-transformer-wrapper";
+import { $definePropMacros } from "rbxts-transformer-macros";
 
 export const PROP_MACROS = $definePropMacros<Instance>({
   Components() {
