@@ -230,6 +230,8 @@ function createTransformer(program: ts.Program, context: ts.TransformationContex
 
 	function buildMacro(macro: Macro, node: ts.Expression) {
 		if (!ts.isIdentifier(macro.methodDeclaration.name)) throw "Method declaration name must be identifier.";
+		if (node.getSourceFile().fileName === macro.sourceFile.fileName)
+			throw "Cannot use macros in the same file they're defined in.";
 		const exportedName = getNameFromDeclaration(macro.exportDeclaration);
 		if (exportedName) {
 			const specifier = ts.getRelativePathFromFile(
