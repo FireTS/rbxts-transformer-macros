@@ -242,8 +242,8 @@ function createTransformer(program: ts.Program, context: ts.TransformationContex
 			const methodType = typeChecker.getTypeAtLocation(macro.methodDeclaration);
 			if (!methodType) throw "Could not find method type!";
 
-			const callsig = methodType.getCallSignatures()[0];
-			if (!callsig) throw "Could not find call signature!";
+			const callSig = methodType.getCallSignatures()[0];
+			if (!callSig) throw "Could not find call signature!";
 
 			return factory.createCallExpression(
 				factory.createParenthesizedExpression(
@@ -263,7 +263,7 @@ function createTransformer(program: ts.Program, context: ts.TransformationContex
 								),
 								...macro.methodDeclaration.parameters,
 							],
-							typeChecker.typeToTypeNode(callsig.getReturnType(), undefined, undefined)!,
+							typeChecker.typeToTypeNode(callSig.getReturnType(), undefined, undefined)!,
 						),
 					),
 				),
