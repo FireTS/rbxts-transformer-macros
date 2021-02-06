@@ -14,11 +14,15 @@ type MacroListTypes = {
 	PropMacros: Map<string, Macro>;
 };
 type MacroList = Map<ts.Symbol, MacroListTypes>;
+type ImportInfo = {
+	specifier: string;
+	imports: Array<[string, ts.Identifier]>;
+};
 
 function createTransformer(program: ts.Program, context: ts.TransformationContext) {
 	const typeChecker = program.getTypeChecker();
 	const macroList: MacroList = new Map();
-	const importList = new Map<ts.Symbol, Array<{ specifier: string; importId: string; genUID: ts.Identifier }>>();
+	const importList = new Map<ts.Symbol, Array<ImportInfo>>();
 	const factory = ts.factory;
 	return transformFiles;
 
@@ -29,15 +33,19 @@ function createTransformer(program: ts.Program, context: ts.TransformationContex
 		const imports = importList.get(symbol) ?? [];
 		importList.set(symbol, imports);
 
-		const existingImport = imports.find((x) => x.importId === importId && x.specifier === specifier);
-		if (existingImport) return existingImport.genUID;
+		let existingImportInfo = imports.find((x) => x.specifier === specifier);
+		if (existingImportInfo) {
+			const existingImport = existingImportInfo.imports.find((x) => x[0] === importId);
+			if (existingImport) {
+				return existingImport[1];
+			}
+		} else {
+			existingImportInfo = { specifier, imports: [] };
+			imports.push(existingImportInfo);
+		}
 
 		const generatedUID = factory.createUniqueName("macro");
-		imports.push({
-			genUID: generatedUID,
-			importId,
-			specifier,
-		});
+		existingImportInfo.imports.push([importId, generatedUID]);
 		return generatedUID;
 	}
 
@@ -330,12 +338,14 @@ function createTransformer(program: ts.Program, context: ts.TransformationContex
 								factory.createImportClause(
 									false,
 									undefined,
-									factory.createNamedImports([
-										factory.createImportSpecifier(
-											factory.createIdentifier(importInfo.importId),
-											importInfo.genUID,
+									factory.createNamedImports(
+										importInfo.imports.map((importData) =>
+											factory.createImportSpecifier(
+												factory.createIdentifier(importData[0]),
+												importData[1],
+											),
 										),
-									]),
+									),
 								),
 								factory.createStringLiteral(importInfo.specifier),
 							),
