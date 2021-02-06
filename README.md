@@ -1,5 +1,5 @@
-# rbxts-transformer-wrapper
-A roblox-ts transformer that allows you to "wrap" instances at compile-time.
+# rbxts-transformer-macros
+A roblox-ts transformer that allows you to add macros to instances, strings, etc at compile-time. This was specifically designed to act as a compile-time "wrapper" for instances, but works on almost any interface.
 
 ## What is the purpose of wrapping instances?
 Wrapping instances is a useful way to extend functionality of Roblox's instances, as they do not provide the ability to augment them natively.
@@ -22,14 +22,14 @@ const instance = ...;
 objectValue.Value = instance.inner;
 ```
 
-Compile-time macros have zero overhead simply for existing, performance is no different than normal instances and are also more stable.
+Compile-time macros have zero overhead simply for existing, are easier to use, and generally more convenient.
 
 # Documentation
 ## How to use the macros?
 Even if you define the macros using $defineCallMacros or $definePropMacros, you can't access them quite yet.
 You'll have to add them to your type definitions, and there's two ways to do this.
 
-You can declare an ambient interface to override the instance interface, like below.
+You can declare an ambient interface to override the interface you're augmenting, like below.
 ```ts
 // ambient.d.ts
 interface Instance {
@@ -64,7 +64,7 @@ export const CALL_MACROS = $defineCallMacros<Instance>({
 
 ## How to define a property macro?
 Property macros must be in a ModuleScript (script.ts), and exported.
-A notable difference between property macros in runtime vs compile-time, compile-time property macros *can* yield. This isn't inherently a good or bad thing, but it can cause issues if you aren't aware of this.
+A notable difference between property macros in runtime wrappers vs compile-time, compile-time property macros *can* yield if the macro yields. This can be a good thing, but it can also cause issues if you aren't aware of it.
 ```ts
 import { $definePropMacros } from "rbxts-transformer-wrapper";
 
