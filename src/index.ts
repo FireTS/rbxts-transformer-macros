@@ -247,10 +247,16 @@ function createTransformer(program: ts.Program, context: ts.TransformationContex
 			const callSig = methodType.getCallSignatures()[0];
 			if (!callSig) throw "Could not find call signature!";
 
+			const methodCallSig = ts.isCallExpression(node) ? typeChecker.getResolvedSignature(node) : undefined;
+			if (!methodCallSig) throw "Could not find used call signature!";
+
 			return factory.createCallExpression(
 				factory.createParenthesizedExpression(
 					factory.createAsExpression(
-						factory.createPropertyAccessExpression(guid, macro.methodDeclaration.name),
+						factory.createAsExpression(
+							factory.createPropertyAccessExpression(guid, macro.methodDeclaration.name),
+							factory.createKeywordTypeNode(ts.SyntaxKind.UnknownKeyword),
+						),
 						factory.createFunctionTypeNode(
 							undefined,
 							[
@@ -265,7 +271,7 @@ function createTransformer(program: ts.Program, context: ts.TransformationContex
 								),
 								...macro.methodDeclaration.parameters,
 							],
-							typeChecker.typeToTypeNode(callSig.getReturnType(), undefined, undefined)!,
+							typeChecker.typeToTypeNode(methodCallSig.getReturnType(), undefined, undefined)!,
 						),
 					),
 				),
