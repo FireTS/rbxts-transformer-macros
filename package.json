@@ -1,0 +1,36 @@
+{
+  "name": "rbxts-transformer-wrapper",
+  "version": "0.0.1",
+  "description": "A roblox-ts transformer that allows you to statically \"wrap\" instances.",
+  "main": "out/index.js",
+  "scripts": {
+    "build": "tsc",
+    "watch": "tsc -w"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/FireTS/rbxts-transformer-wrapper.git"
+  },
+  "author": "Fireboltofdeath",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/FireTS/rbxts-transformer-wrapper/issues"
+  },
+  "homepage": "https://github.com/FireTS/rbxts-transformer-wrapper#readme",
+  "dependencies": {
+    "@types/node": "^14.14.25",
+    "byots": "^4.1.0-dev.20201102.16.32",
+    "typescript": "^4.1.3"
+  },
+  "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "^4.9.1",
+    "@typescript-eslint/parser": "^4.9.1",
+    "eslint": "^7.15.0",
+    "eslint-config-prettier": "^7.0.0",
+    "eslint-plugin-prettier": "^3.2.0",
+    "prettier": "^2.2.1"
+  },
+  "files": [
+    "out"
+  ]
+}
